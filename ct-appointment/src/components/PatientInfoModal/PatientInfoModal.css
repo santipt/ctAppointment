@@ -1,4 +1,8 @@
-.date_picker{
+.card_header {
+    justify-items: space-around;
+}
+
+.date_picker {
     border-width: 0px;
     padding: 0px;
 }

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import './MainPage.css';
 
 // Importing components
-import CardPatient from '../../components/CardPatient/CardPatient';
+import PatientCard from '../../components/PatientCard/PatientCard';
 import ListItemPatient from '../../components/ListItemPatient/ListItemPatient';
 import RegisterModal from '../../components/RegisterModal/RegisterModal';
 
@@ -52,23 +52,18 @@ export default function MainPage() {
 
     return (
         <div>
-            <Container className="header_container">
-                <Row className="justify-content-md-center">
-                    <Col md="auto">
-                        <h1>List of patients</h1>
-                    </Col>
-                    <Col>
-                        <Button
-                            className="register_button"
-                            variant="outline-dark"
-                            onClick={handleShowRegisterModal}><BsPlus  size={25}/></Button>
-                    </Col>
-                    <Col md="auto"></Col>
-                    <Col md="auto">
-                        <Form.Group>
-                            <Form.Control className="filter" type="text" placeholder="Filter" onChange={handleChangeFilter} />
-                        </Form.Group>
-                    </Col>
+            <div className="header_container">
+                <div className="title_container">
+                    <h1>List of patients</h1>
+                    <Button
+                        className="register_button"
+                        variant="outline-dark"
+                        onClick={handleShowRegisterModal}><BsPlus size={25} /></Button>
+                </div>
+                <div className="filter_container">
+                    <Form.Group className="filter">
+                        <Form.Control type="text" placeholder="Filter" onChange={handleChangeFilter} />
+                    </Form.Group>
                     {/* <Col xs lg="2">
                         <DropdownButton id="dropdown-basic-button" title="Dropdown button">
                             <Dropdown.Item href="#/action-1">Action</Dropdown.Item>
@@ -76,28 +71,25 @@ export default function MainPage() {
                             <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
                         </DropdownButton>
                     </Col> */}
-                    <Col md="auto">
-                        <Button className="toggle_view_button" variant="outline-dark" onClick={handleToggleView}>{toggleView ? <BsFillGridFill  size={20}/> : <BsList  size={25}/>}</Button>
-                    </Col>
-
-
-                </Row>
-
-            </Container>
+                    <Button className="toggle_view_button" variant="outline-dark" onClick={handleToggleView}>{toggleView ? <BsFillGridFill size={20} /> : <BsList size={25} />}</Button>
+                </div>
+            </div>
             {!toggleView ? <Row className="patients_container" >
-                {filteredPatients.map((val, i) => {
-                    return (
-                        <Col key={i} xs="3" className="mb-4">
-                            <CardPatient
-                                key={val._id}
-                                firstName={val.firstName}
-                                lastName={val.lastName}
-                                lastVisit={val.updatedAt}
-                                data={val}
-                            ></CardPatient>
-                        </Col>
-                    )
-                })}
+                {filteredPatients != [] ?
+                    filteredPatients.map((val, i) => {
+                        return (
+                            <Col key={i} xs="3" className="mb-4">
+                                <PatientCard
+                                    key={val._id}
+                                    firstName={val.firstName}
+                                    lastName={val.lastName}
+                                    lastVisit={val.updatedAt}
+                                    data={val}
+                                ></PatientCard>
+                            </Col>
+                        )
+                    }) : null
+                }
             </Row> :
                 <div className="table_container">
                     <Table striped bordered hover size="sm">

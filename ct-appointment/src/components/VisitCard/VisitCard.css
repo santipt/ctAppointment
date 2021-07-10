@@ -1,0 +1,14 @@
+.visit_card_container{
+    width: 100%;
+    margin-top: 5%;
+}
+
+.header_card_container{
+    display: flex;
+    justify-content: space-between;
+}
+
+.title_visit_card{
+    display: flex;
+    justify-content: space-between;
+}

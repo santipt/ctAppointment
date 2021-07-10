@@ -32,13 +32,13 @@ export default function RegisterModal(props) {
     }
 
     async function handleRegisterPatient(e) {
-        
+
         e.preventDefault() // In order to not refresh
 
-        addNewPatient(firstName, lastName, address, dateOfBirth).then( res =>{
+        addNewPatient(firstName, lastName, address, dateOfBirth).then(res => {
             // Closing modal when is completed
             props.closeModal()
-        }).catch(err=>{
+        }).catch(err => {
             alert(err)
         });
     }
@@ -54,7 +54,7 @@ export default function RegisterModal(props) {
         >
             <Modal.Header closeButton>
                 <Modal.Title >
-                Register new patient
+                    Register new patient
                 </Modal.Title>
             </Modal.Header>
             <Modal.Body>

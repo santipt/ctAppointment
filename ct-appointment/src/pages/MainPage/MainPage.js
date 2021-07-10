@@ -13,9 +13,11 @@ import { getAllPatients } from '../../services/PatientRoutes';
 
 
 export default function MainPage() {
-    const [listOfPatients, setListOfPatients] = useState([]);
-    const [showRegisterModal, setShowRegisterModal] = useState(false);
 
+    const [listOfPatients, setListOfPatients] = useState([]);
+    
+    const [showRegisterModal, setShowRegisterModal] = useState(false);
+    
     const handleShowRegisterModal = () => setShowRegisterModal(!showRegisterModal);
 
     // Like componentDidMount y componentDidUpdate
@@ -47,7 +49,9 @@ export default function MainPage() {
                                 key={val._id}
                                 firstName={val.firstName}
                                 lastName={val.lastName}
-                                lastVisit={val.updatedAt}></CardPatient>
+                                lastVisit={val.updatedAt}
+                                data={val}
+                            ></CardPatient>
                         </Col>
                     )
                 })}

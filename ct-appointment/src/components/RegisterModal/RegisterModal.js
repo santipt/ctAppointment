@@ -16,7 +16,7 @@ export default function RegisterModal(props) {
     const [firstName, setFirstName] = useState(null);
     const [lastName, setLastName] = useState(null);
     const [address, setAddress] = useState(null);
-    const [dateOfBirth, setDateOfBirth] = useState(new Date());
+    const [dateOfBirth, setDateOfBirth] = useState(null);
 
 
     function handleChangeFirstName(event) {
@@ -54,23 +54,23 @@ export default function RegisterModal(props) {
         >
             <Modal.Header closeButton>
                 <Modal.Title >
-                Register Modal
+                Register new patient
                 </Modal.Title>
             </Modal.Header>
             <Modal.Body>
                 <Form>
                     <Form.Group className="mb-3">
-                        <Form.Label>First name</Form.Label>
+                        <Form.Label>First name*</Form.Label>
                         <Form.Control type="text" placeholder="First name" onChange={handleChangeFirstName} />
                     </Form.Group>
 
                     <Form.Group className="mb-3">
-                        <Form.Label>Last name</Form.Label>
+                        <Form.Label>Last name*</Form.Label>
                         <Form.Control type="text" placeholder="Last name" onChange={handleChangeLastName} />
                     </Form.Group>
 
                     <Form.Group className="mb-3" >
-                        <Form.Label>Address</Form.Label>
+                        <Form.Label>Address*</Form.Label>
                         <Form.Control type="text" placeholder="Address" onChange={handleChangeAddress} />
                     </Form.Group>
 
@@ -79,6 +79,7 @@ export default function RegisterModal(props) {
                         <div className="row">
                             <DatePicker
                                 className="form-control ml-3"
+                                placeholderText="DD/MM/YYYY"
                                 selected={dateOfBirth}
                                 dropdownMode="select"
                                 showMonthDropdown

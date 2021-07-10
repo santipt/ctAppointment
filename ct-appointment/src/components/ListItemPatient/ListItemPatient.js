@@ -12,7 +12,7 @@ import { getAVisit } from '../../services/VisitRoutes';
 // Importing usefull functions
 import convertDateFormat from '../../utils/convertDateFormat';
 
-export default function CardPatient(props) {
+export default function ListItemPatient(props) {
 
     const [showPatientInfoModal, setShowPatientInfoModal] = useState(false);
     const [lastVisitDate, setLastVisitDate] = useState(null);
@@ -40,22 +40,23 @@ export default function CardPatient(props) {
         }
     }, []);
 
-    return (
-        <div>
-            <Card className="card_container" onClick={handleShowPatientInfoModal}>
-                <Card.Body>
-                    <Card.Title>{props.data.firstName}</Card.Title>
-                    <Card.Subtitle className="mb-2 text-muted">{props.data.lastName}</Card.Subtitle>
-                    { lastVisitDate != null ?
-                        <Card.Text>Last visit: {lastVisitDate}</Card.Text>
-                        : 
-                        <Card.Text>Last visit: None</Card.Text>
-                    }
-                </Card.Body>
-            </Card>
+    if (showPatientInfoModal == false) {
+        return (
+            <tr onClick={handleShowPatientInfoModal}>
+                <td>{props.firstName}</td>
+                <td>{props.lastName}</td>
+                {lastVisitDate != null ?
+                    <td>{lastVisitDate}</td> :
+                    <td>None</td>}
+            </tr>
+        )
+    } else {
+        return (
             <PatientInfoModal visitData={visitData} patientData={props.data} show={showPatientInfoModal} closeModal={handleShowPatientInfoModal}></PatientInfoModal>
-        </div>
-    )
+        )
+    }
+
+
 
 
 }

@@ -7,7 +7,7 @@ import { Card, } from 'react-bootstrap';
 export default function CardPatient(props) {
 
 
-    console.log("Date". visit)
+    //console.log("Date". visit)
 
     return (
         <Card style={{ width: '18rem' }}>

@@ -1,0 +1,22 @@
+body {
+    font: 14px "Century Gothic", Futura, sans-serif;
+}
+
+h1 {
+
+}
+
+.header_container{
+    justify-content: space-between;
+    margin: 20px;
+    align-items: 'center';
+}
+
+.register_button{
+    height: 50px;
+    justify-self: center;
+}
+
+.patients_container {
+    margin: 20px;
+}

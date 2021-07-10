@@ -1,19 +1,32 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import './MainPage.css';
 
-export default class LandingPage extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            value: null,
-        };
-    }
+import { getAllPatients } from '../../services/PatientRoutes';
 
-    render() {
-        return (
+
+export default function MainPage() {
+    const [listOfPatients, setListOfPatients] = useState([]);
+
+    var items;
+    // Like componentDidMount y componentDidUpdate
+    useEffect(() => {
+        getAllPatients().then(res => {
+            console.log(res)
+
+            setListOfPatients(res)
+        }).catch(err => {
+            alert(err)
+        });
+    }, []);
+
+    return (
+        <div>
+            <h1>List of patients</h1>
             <div>
-                <h1>MainPage</h1>
+                {listOfPatients.map((listOfPatients, index) => (
+                    <div key={listOfPatients._id}>{listOfPatients.firstName}</div>
+                ))}
             </div>
-        );
-    }
+        </div>
+    );
 }

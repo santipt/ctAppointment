@@ -6,9 +6,16 @@
 .header_card_container{
     display: flex;
     justify-content: space-between;
+    align-items: center;
 }
 
 .title_visit_card{
     display: flex;
     justify-content: space-between;
 }
+
+.header_medication{
+    display: flex;
+    justify-content: space-between;
+}
+    

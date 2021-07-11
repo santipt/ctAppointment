@@ -1,3 +1,32 @@
-.medication_card_container{
+.medication_card_container {
     width: 200px;
+}
+
+.medication_card_header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.medication_title{
+    display: flex;
+    text-align: center;
+    align-items: center;
+    justify-self: center;
+}
+
+.trash_icon {
+    color: #E63B29;
+}
+
+.trash_icon:hover {
+    color: #B52F21;
+}
+
+.delete_medication_button {
+    display: flex;
+}
+
+.delete_medication_button:hover {
+    cursor: pointer;
 }

@@ -43,3 +43,14 @@ export async function addNewMedication(name, dose, packageSize) {
 // -----------------------------------------------------------------
 // ----------------------------- DELETE ----------------------------
 // -----------------------------------------------------------------
+export async function deleteMedication(medicationId) {
+
+  return api.delete('/medication/' + medicationId).then(res => {
+    console.log(res.data);
+    return res.data
+  })
+    .catch(err => {
+      console.log('error', err)
+      throw err;
+    })
+}

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import './PatientInfoModal.css';
 
 // Importing date picker component
@@ -8,10 +8,6 @@ import "react-datepicker/dist/react-datepicker.css";
 // Importing Bootstrap components
 import { Modal, Button, Form, Col, Row } from 'react-bootstrap';
 import VisitCard from '../VisitCard/VisitCard';
-
-
-// Importing usefull functions
-import convertDateFormat from '../../utils/convertDateFormat';
 
 export default function PatientInfoModal(props) {
 

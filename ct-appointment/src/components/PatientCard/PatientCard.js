@@ -27,8 +27,7 @@ export default function PatientCard(props) {
     // Like componentDidMount y componentDidUpdate
     useEffect(() => {
 
-        
-
+    
         // Getting the last visit id
         if (props.data.visits != [] && firstLoad == true) {
 

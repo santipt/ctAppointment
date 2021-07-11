@@ -18,13 +18,10 @@ import convertDateFormat from '../../utils/convertDateFormat';
 
 export default function VisitCard(props) {
 
-
     const [medications, setMedications] = useState([]);
     const [toggleAccordion, setToggleAccordion] = useState(false);
-    // In order to verify that the forEach is runned only once
-    const [firstLoad, setFirstLoad] = useState(true);
 
-    const handleToggleAccordion = () => setToggleAccordion(!toggleAccordion);
+    const handleToggleAccordion = () => { setToggleAccordion(!toggleAccordion) };
 
     // ADDING NEW MEDICATION
     function handleAddNewMedicationCard(event) {
@@ -55,15 +52,16 @@ export default function VisitCard(props) {
                 // Add loading
                 console.log("New medication added", res)
                 setMedications(medications => [...medications, res]);
-                
+
                 // Adding new medication to the visit data
                 props.visiData.prescribedMedication.push(res)
+                var updatedVisitData = props.visiData;
 
                 // Update medication patient in the visit
-                updateVisit(props.visiData).then( visit =>{
+                updateVisit(updatedVisitData).then(visit => {
                     console.log("Visit updated", visit)
                     handleRemoveNewMedicationCard(event)
-                }).catch( err =>{
+                }).catch(err => {
                     alert(err)
                     handleRemoveNewMedicationCard(event)
                 })
@@ -77,23 +75,18 @@ export default function VisitCard(props) {
     }
 
 
+
     // Like componentDidMount y componentDidUpdate
     useEffect(() => {
 
-        console.log("VISITS", props.visiData)
-
         // Getting the medication data
-        if (props.visiData != undefined && props.visiData.prescribedMedication != undefined && firstLoad == true) {
-
-            setFirstLoad(false)
-
+        if (props.visiData != undefined && props.visiData.prescribedMedication != undefined) {
             setMedications(props.visiData.prescribedMedication);
-
         }
+
     }, []);
 
     if (props.visitData != []) {
-
         return (
             <Accordion>
                 <Card className="visit_card_container">
@@ -142,7 +135,6 @@ export default function VisitCard(props) {
             </Accordion>
         )
     } else {
-        return (null)
+        return (null);
     }
-
 }

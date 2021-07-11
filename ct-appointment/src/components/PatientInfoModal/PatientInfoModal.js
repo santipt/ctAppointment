@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import './PatientInfoModal.css';
 
 // Importing date picker component
@@ -6,12 +6,86 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
 // Importing Bootstrap components
-import { Modal, Button, Form, Col, Row } from 'react-bootstrap';
+import { Modal, Button, Form, Col, Row, Card, Accordion } from 'react-bootstrap';
+
+// Importing component
 import VisitCard from '../VisitCard/VisitCard';
+
+// Importing services
+import { addNewVisit } from '../../services/VisitRoutes';
+import { updatePatient } from '../../services/PatientRoutes';
 
 export default function PatientInfoModal(props) {
 
-    // Checking if the data of the visit arrived if did not don't return anything
+    const [showAddVisitCard, setShowAddVisitCard] = useState(false);
+    const [reasonOfVisit, setReasonOfVisit] = useState(null);
+    const [consult, setConsult] = useState(null);
+    const [dateOfVisit, setDateOfVisit] = useState(null);
+
+    // ADDING NEW VISIT
+    function handleAddNewVisitCard(event) {
+        event.preventDefault() // In order to not refresh
+        setShowAddVisitCard(true)
+    }
+
+    function handleRemoveNewVisitCard(event) {
+        event.preventDefault() // In order to not refresh
+        setDateOfVisit(null)
+        setShowAddVisitCard(false)
+    }
+
+    function handleSaveNewVisit(event) {
+        event.preventDefault() // In order to not refresh
+
+        if (reasonOfVisit != null && consult != null && dateOfVisit != null) {
+            console.log("Add new visit")
+
+            var data = {
+                reasonOfVisit: reasonOfVisit,
+                consult: consult,
+                patient: props.patientData._id,
+                dateOfVisit: dateOfVisit,
+            }
+
+            addNewVisit(data).then(res => {
+                console.log("New visit added")
+                console.log(res)
+
+                // Adding id visit to list of visits ids of the patient
+                props.patientData.visits.push(res._id);
+                var updatedPatientData = props.patientData;
+
+                updatePatient(updatedPatientData).then(res => {
+
+                })
+
+                setShowAddVisitCard(false)
+
+                // Adding new visit to the visit array
+                props.updateVisitsList(res)
+
+            }).catch(err => {
+                alert(err)
+            })
+        } else {
+            alert("You must fill all the parameters")
+        }
+    }
+
+    function handleChangeReasonOfVisit(event) {
+        setReasonOfVisit(event.target.value)
+    }
+
+    function handleChangeConsult(event) {
+        setConsult(event.target.value)
+    }
+
+
+    useEffect(() => {
+        console.log("VISITS", props.visits)
+    }, [])
+
+    // Checking if the data of the patient arrived if did not don't return anything
     if (props.patientData != null) {
 
         return (
@@ -65,11 +139,49 @@ export default function PatientInfoModal(props) {
                         {/* VISITS */}
                         <Form.Group className="mb-3" >
                             <Form.Label className="font-weight-bold">Visits</Form.Label>
-                            <Button variant="outline-dark" type="submit" className="ml-3">
+                            <Button onClick={(event) => {
+                                handleAddNewVisitCard(event)
+                            }} variant="outline-dark" type="submit" className="ml-3">
                                 Add new visit
                             </Button>
+                            {showAddVisitCard ?
+                                <Card className="visit_card_container">
+                                    <Card.Header className="header_card_container" >
+                                        <Card.Title className="title_visit_card">New visit</Card.Title>
+                                        <div>
+                                            <Button onClick={handleSaveNewVisit} variant="outline-dark" type="submit" className="ml-3 add_medication_button">
+                                                Save
+                                            </Button>
+                                            <Button onClick={handleRemoveNewVisitCard} variant="outline-dark" type="submit" className="ml-3 add_medication_button">
+                                                Cancel
+                                            </Button>
+                                        </div>
+                                    </Card.Header>
+                                    <Card.Body>
+                                        <Form.Group className="mb-3">
+                                            <Form.Group className="mb-3" >
+                                                <div className="row">
+                                                    <DatePicker
+                                                        className="form-control ml-3"
+                                                        placeholderText="Date of visit"
+                                                        selected={dateOfVisit}
+                                                        dropdownMode="select"
+                                                        showMonthDropdown
+                                                        showYearDropdown
+                                                        adjustDateOnChange
+                                                        dateFormat="dd/MM/yyyy"
+                                                        onChange={(date) => setDateOfVisit(date)} />
+                                                </div>
+                                            </Form.Group>
+                                            <Form.Control className="mb-3" type="text" placeholder="Reason of visit" as="textarea" onChange={handleChangeReasonOfVisit} />
+                                            <Form.Control className="mb-3" type="text" placeholder="Consult" as="textarea" onChange={handleChangeConsult} />
+                                        </Form.Group>
+                                    </Card.Body>
+                                </Card>
+                                : null
+                            }
                             {props.visits != [] ?
-                                props.visits.map((val, i) => {
+                                props.visits.reverse().map((val, i) => {
                                     return (
                                         <VisitCard
                                             key={val._id}
@@ -79,7 +191,8 @@ export default function PatientInfoModal(props) {
                                             visiData={val}
                                         ></VisitCard>
                                     )
-                                }) : null}
+                                })
+                                : null}
                         </Form.Group>
                     </Form>
                 </Modal.Body>

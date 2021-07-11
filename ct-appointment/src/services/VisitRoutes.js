@@ -19,15 +19,9 @@ export async function getAVisit(visitId) {
 // ----------------------------- POST ------------------------------
 // -----------------------------------------------------------------
 
-export async function addNewVisit(reasonOfVisit, consult, patient, dateOfVisit, prescribedMedication) {
+export async function addNewVisit(visitData) {
 
-  return api.post('/visit', {
-    reasonOfVisit: reasonOfVisit,
-    consult: consult,
-    patient: patient,
-    dateOfVisit: dateOfVisit,
-    prescribedMedication: prescribedMedication,
-  }).then(res => {
+  return api.post('/visit', visitData).then(res => {
     //console.log(res.data);
     return res.data
   })

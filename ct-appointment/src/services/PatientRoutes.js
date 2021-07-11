@@ -42,6 +42,17 @@ export async function addNewPatient(firstName, lastName, address, dateOfBirth, v
 // -----------------------------------------------------------------
 // ----------------------------- PUT -------------------------------
 // -----------------------------------------------------------------
+export async function updatePatient(updateData) {
+
+  return api.put('/patient/' + updateData._id, updateData).then(res => {
+    //console.log(res.data);
+    return res.data
+  })
+    .catch(err => {
+      console.log('error', err)
+      throw err;
+    })
+}
 
 
 // -----------------------------------------------------------------

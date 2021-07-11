@@ -24,24 +24,29 @@ export default function PatientCard(props) {
 
     const handleShowPatientInfoModal = () => setShowPatientInfoModal(!showPatientInfoModal);
 
+    function updateVisitsList (newVisit){
+        setVisits(visits => [...visits, newVisit]);
+    }
+
     // Like componentDidMount y componentDidUpdate
     useEffect(() => {
 
-    
-        // Getting the last visit id
+        // Getting all the patient visits
         if (props.data.visits != [] && firstLoad == true) {
 
             setFirstLoad(false)
 
-            var listOfVisits = props.data.visits;
-            console.log("LIST OF VISITS")
-            console.log(listOfVisits)
+            var listOfVisitsIds = props.data.visits;
 
-            listOfVisits.forEach( (visitId, index) => {
+            console.log("LIST OF VISITS IDS", listOfVisitsIds)
 
+            listOfVisitsIds.forEach((visitId, index) => {
+
+                // Getting all the info of each visit
                 getAVisit(visitId).then(res => {
                     setVisits(visits => [...visits, res]);
 
+                    // Getting the last visit id
                     if (index == 0) {
                         // Formating date of the last visit
                         var date = convertDateFormat(res.dateOfVisit)
@@ -53,8 +58,6 @@ export default function PatientCard(props) {
                 });
             })
         }
-
-
 
     }, []);
 
@@ -73,7 +76,13 @@ export default function PatientCard(props) {
                         }
                     </Card.Body>
                 </Card>
-                <PatientInfoModal visits={visits} patientData={props.data} show={showPatientInfoModal} closeModal={handleShowPatientInfoModal}></PatientInfoModal>
+                <PatientInfoModal
+                    visits={visits}
+                    patientData={props.data}
+                    updateVisitsList={updateVisitsList}
+                    show={showPatientInfoModal}
+                    closeModal={handleShowPatientInfoModal}
+                ></PatientInfoModal>
             </div>
         )
     } else {

@@ -30,3 +30,7 @@
 .delete_medication_button:hover {
     cursor: pointer;
 }
+
+.button_group_new_medication{
+    display: flex;
+}

@@ -31,9 +31,9 @@ export default function RegisterModal(props) {
         setAddress(event.target.value)
     }
 
-    async function handleRegisterPatient(e) {
+    function handleRegisterPatient(event) {
 
-        e.preventDefault() // In order to not refresh
+        event.preventDefault() // In order to not refresh
 
         addNewPatient(firstName, lastName, address, dateOfBirth).then(res => {
             // Closing modal when is completed

@@ -21,7 +21,7 @@ export async function getAMedication(medicationId) {
 
 export async function addNewMedication(name, dose, packageSize) {
 
-  return api.post('/api/medication', {
+  return api.post('/medication', {
     name: name,
     dose: dose,
     packageSize: packageSize

@@ -40,7 +40,17 @@ export async function addNewVisit(reasonOfVisit, consult, patient, dateOfVisit, 
 // -----------------------------------------------------------------
 // ----------------------------- PUT -------------------------------
 // -----------------------------------------------------------------
+export async function updateVisit(updateData) {
 
+  return api.put('/visit/' + updateData._id, updateData).then(res => {
+    //console.log(res.data);
+    return res.data
+  })
+    .catch(err => {
+      console.log('error', err)
+      throw err;
+    })
+}
 
 // -----------------------------------------------------------------
 // ----------------------------- DELETE ----------------------------

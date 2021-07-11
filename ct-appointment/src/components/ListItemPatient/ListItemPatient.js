@@ -16,28 +16,41 @@ export default function ListItemPatient(props) {
 
     const [showPatientInfoModal, setShowPatientInfoModal] = useState(false);
     const [lastVisitDate, setLastVisitDate] = useState(null);
-    const [visitData, setVisitData] = useState(null);
+    const [visits, setVisits] = useState([]);
+    // In order to verify that the forEach is runned only once
+    const [firstLoad, setFirstLoad] = useState(true);
 
     const handleShowPatientInfoModal = () => setShowPatientInfoModal(!showPatientInfoModal);
+
 
     // Like componentDidMount y componentDidUpdate
     useEffect(() => {
 
-        // Getting the last visit id
-        var visitId = props.data.visits[0];
+     // Getting the last visit id
+     if (props.data.visits != [] && firstLoad == true) {
 
-        if (visitId != undefined) {
+        setFirstLoad(false)
+
+        var listOfVisits = props.data.visits;
+        console.log("LIST OF VISITS")
+        console.log(listOfVisits)
+
+        listOfVisits.forEach( (visitId, index) => {
+
             getAVisit(visitId).then(res => {
-                setVisitData(res);
+                setVisits(visits => [...visits, res]);
 
-                // Formating date 
-                var date = convertDateFormat(res.dateOfVisit)
+                if (index == 0) {
+                    // Formating date of the last visit
+                    var date = convertDateFormat(res.dateOfVisit)
 
-                setLastVisitDate(date);
+                    setLastVisitDate(date);
+                }
             }).catch(err => {
                 alert(err)
             });
-        }
+        })}
+
     }, []);
 
     if (showPatientInfoModal == false) {
@@ -52,11 +65,8 @@ export default function ListItemPatient(props) {
         )
     } else {
         return (
-            <PatientInfoModal visitData={visitData} patientData={props.data} show={showPatientInfoModal} closeModal={handleShowPatientInfoModal}></PatientInfoModal>
-        )
+            <PatientInfoModal visits={visits} patientData={props.data} show={showPatientInfoModal} closeModal={handleShowPatientInfoModal}></PatientInfoModal>
+            )
     }
-
-
-
 
 }

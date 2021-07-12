@@ -113,7 +113,7 @@ export default function PatientInfoModal({updatePatientData, patientData, closeM
 
 
     useEffect(() => {
-        console.log("VISITS", props.visits)
+    
     }, [])
 
     // Checking if the data of the patient arrived if did not don't return anything

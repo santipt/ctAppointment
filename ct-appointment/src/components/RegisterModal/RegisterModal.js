@@ -40,6 +40,7 @@ export default function RegisterModal(props) {
             addNewPatient(firstName, lastName, address, dateOfBirth).then(res => {
                 // Closing modal when is completed
                 props.closeModal()
+                window.location.reload();
             }).catch(err => {
                 alert(err)
             });

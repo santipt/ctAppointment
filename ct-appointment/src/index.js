@@ -6,6 +6,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 // Importing pages
 import MainPage from './pages/MainPage/MainPage'
+import AllVisitsPage from './pages/AllVisitsPage/AllVisitsPage'
 
 import {
     BrowserRouter as Router,
@@ -21,6 +22,9 @@ class App extends React.Component {
                 <Switch>
                     <Route path="/home">
                         <MainPage></MainPage>
+                    </Route>
+                    <Route path="/visits">
+                        <AllVisitsPage></AllVisitsPage>
                     </Route>
                     <Route path="/">
                         <MainPage></MainPage>

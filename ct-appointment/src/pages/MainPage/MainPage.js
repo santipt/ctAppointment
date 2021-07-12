@@ -5,6 +5,7 @@ import './MainPage.css';
 import PatientCard from '../../components/PatientCard/PatientCard';
 import ListItemPatient from '../../components/ListItemPatient/ListItemPatient';
 import RegisterModal from '../../components/RegisterModal/RegisterModal';
+import NavBar from '../../components/NavBar/NavBar'
 
 // Importing Bootstrap components
 import { Row, Col, Button, Form, Table, Dropdown, DropdownButton, Container } from 'react-bootstrap';
@@ -52,6 +53,7 @@ export default function MainPage() {
 
     return (
         <div>
+            <NavBar active="/home"></NavBar>
             <div className="header_container">
                 <div className="title_container">
                     <h1>List of patients</h1>

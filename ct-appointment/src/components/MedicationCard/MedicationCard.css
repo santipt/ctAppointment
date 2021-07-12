@@ -2,6 +2,10 @@
     width: 200px;
 }
 
+.medication_card_container_all_visits{
+    
+}
+
 .medication_card_header {
     display: flex;
     justify-content: space-between;

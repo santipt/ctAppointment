@@ -3,6 +3,19 @@ import api from '../API.js'
 // -----------------------------------------------------------------
 // ----------------------------- GET -------------------------------
 // -----------------------------------------------------------------
+export async function getAllVisits() {
+
+  return api.get('/visit', {}).then(res => {
+    //console.log(res.data);
+    return res.data
+  })
+    .catch(err => {
+      console.log('error', err)
+      throw err;
+  })
+}
+
+
 export async function getAVisit(visitId) {
 
   return api.get('/visit/' + visitId, {}).then(res => {

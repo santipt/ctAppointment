@@ -7,8 +7,7 @@ import './MedicationCard.css';
 import { Card, Button, Form } from 'react-bootstrap';
 
 // Importing services
-import { addNewMedication, deleteMedication } from '../../services/MedicationRoutes';
-import { updateVisitMedication } from '../../services/VisitRoutes';
+import { deleteMedication } from '../../services/MedicationRoutes';
 
 // Importing icons
 import { BsFillTrashFill } from "react-icons/bs";
@@ -36,6 +35,7 @@ export default function MedicationCard(props) {
         deleteMedication(props.medicationData._id).then(res => {
             // Add loading
             props.updateMedicationList(props.medicationData._id)
+            window.location.reload();
         }).catch(err => {
             alert(err)
         })
@@ -74,12 +74,15 @@ export default function MedicationCard(props) {
     } else {
         return (
             // INFO MEDICATION CARD
-            <Card className="medication_card_container">
+            <Card className={props.getMedicationInfo ? "medication_card_container_all_visits" :"medication_card_container"}>
                 <Card.Header className="medication_card_header">
                     <Card.Title className="medication_title">{props.name}</Card.Title>
-                    <a className="delete_medication_button" onClick={handleDeleteMedication}>
-                        <BsFillTrashFill className="trash_icon" size={13} />
-                    </a>
+                    {props.getMedicationInfo != true ?
+                        <a className="delete_medication_button" onClick={handleDeleteMedication}>
+                            <BsFillTrashFill className="trash_icon" size={13} />
+                        </a>
+                        : null
+                    }
                 </Card.Header>
                 <Card.Body>
                     <Card.Text>Dose: {props.dose}</Card.Text>

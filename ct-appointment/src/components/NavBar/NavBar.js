@@ -7,7 +7,7 @@ export default function MyNavbar(props) {
 
     return (
         <Navbar bg="light" expand="lg">
-            <Navbar.Brand href="#home">CT APPOINTMENT</Navbar.Brand>
+            <Navbar.Brand href="/home">CT APPOINTMENT</Navbar.Brand>
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
             <Navbar.Collapse id="basic-navbar-nav">
                 <Nav activeKey={props.active}

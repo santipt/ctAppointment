@@ -12,10 +12,10 @@ import { Modal, Button, Form, Col, Row, Card, Accordion } from 'react-bootstrap'
 import VisitCard from '../VisitCard/VisitCard';
 
 // Importing services
-import { addNewVisit } from '../../services/VisitRoutes';
+import { addNewVisit, deleteVisit } from '../../services/VisitRoutes';
 import { updatePatient } from '../../services/PatientRoutes';
 
-export default function PatientInfoModal(props) {
+export default function PatientInfoModal({updatePatientData, patientData, closeModal, updateVisitsList, ...props}) {
 
     const [showAddVisitCard, setShowAddVisitCard] = useState(false);
     const [reasonOfVisit, setReasonOfVisit] = useState(null);
@@ -43,7 +43,7 @@ export default function PatientInfoModal(props) {
             var data = {
                 reasonOfVisit: reasonOfVisit,
                 consult: consult,
-                patient: props.patientData._id,
+                patient: patientData._id,
                 dateOfVisit: dateOfVisit,
             }
 
@@ -52,17 +52,19 @@ export default function PatientInfoModal(props) {
                 console.log(res)
 
                 // Adding id visit to list of visits ids of the patient
-                props.patientData.visits.push(res._id);
-                var updatedPatientData = props.patientData;
+                patientData.visits.push(res._id);
+                var updatedPatientData = patientData;
 
                 updatePatient(updatedPatientData).then(res => {
-
+                    updatePatientData(res)
                 })
 
                 setShowAddVisitCard(false)
 
                 // Adding new visit to the visit array
-                props.updateVisitsList(res)
+                updateVisitsList(res, false)
+                // Updating patientData prop
+                updatePatientData(patientData)
 
             }).catch(err => {
                 alert(err)
@@ -71,6 +73,35 @@ export default function PatientInfoModal(props) {
             alert("You must fill all the parameters")
         }
     }
+    function handleDeleteVisit(event, visitData) {
+
+        console.log("Deleting visit: ", visitData)
+
+        if (visitData._id != undefined) {
+
+            deleteVisit(visitData._id).then(res => {
+
+                // Delete visit id from the list of visits of the patient
+                var newVisits = patientData.visits.filter(( visit ) => visit !== visitData._id)
+                patientData.visits = newVisits;
+                var updatedPatientData = patientData;
+
+                // Updating visits ids of the patient
+                updatePatient(updatedPatientData).then(res => {
+                    console.log("Visit deleted", res)
+                })
+
+                // Updating visits list
+                // props.visits = props.visits.filter(( visit ) => visit._id !== visitData._id);
+                // updateVisitsList(visitData._id, true)
+                // updatePatientData(patientData)
+                window.location.reload();
+            }).catch(err => {
+                alert(err)
+            })
+        }
+    }
+
 
     function handleChangeReasonOfVisit(event) {
         setReasonOfVisit(event.target.value)
@@ -86,14 +117,14 @@ export default function PatientInfoModal(props) {
     }, [])
 
     // Checking if the data of the patient arrived if did not don't return anything
-    if (props.patientData != null) {
+    if (patientData != null) {
 
         return (
             <Modal
                 {...props}
                 size="lg"
                 aria-labelledby="contained-modal-title-vcenter"
-                onHide={props.closeModal}
+                onHide={closeModal}
                 centered
                 scrollable={true}
             >
@@ -108,28 +139,28 @@ export default function PatientInfoModal(props) {
                         {/* FIRST NAME */}
                         <Form.Group className="mb-3">
                             <Form.Label className="font-weight-bold">First name</Form.Label>
-                            <p>{props.patientData.firstName}</p>
+                            <p>{patientData.firstName}</p>
                         </Form.Group>
 
                         {/* LAST NAME */}
                         <Form.Group className="mb-3">
                             <Form.Label className="font-weight-bold">Last name</Form.Label>
-                            <p>{props.patientData.lastName}</p>
+                            <p>{patientData.lastName}</p>
                         </Form.Group>
 
                         {/* ADDRESS */}
                         <Form.Group className="mb-3" >
                             <Form.Label className="font-weight-bold">Address</Form.Label>
-                            <p>{props.patientData.address}</p>
+                            <p>{patientData.address}</p>
                         </Form.Group>
 
                         {/* DATE OF BIRTH */}
-                        {props.patientData.dateOfBirth != undefined ? <Form.Group className="mb-3" >
+                        {patientData.dateOfBirth != undefined ? <Form.Group className="mb-3" >
                             <Form.Label className="font-weight-bold">Date of Birth</Form.Label>
                             <div className="row">
                                 <DatePicker
                                     className="ml-3 date_picker"
-                                    selected={new Date(props.patientData.dateOfBirth)}
+                                    selected={new Date(patientData.dateOfBirth)}
                                     readOnly={true}
                                     dateFormat="dd/MM/yyyy" />
                             </div>
@@ -184,11 +215,12 @@ export default function PatientInfoModal(props) {
                                 props.visits.reverse().map((val, i) => {
                                     return (
                                         <VisitCard
-                                            key={val._id}
+                                            key={i}
                                             dateOfVisit={val.dateOfVisit}
                                             consult={val.consult}
                                             reasonOfVisit={val.reasonOfVisit}
-                                            visiData={val}
+                                            visitData={val}
+                                            handleDeleteVisit={handleDeleteVisit}
                                         ></VisitCard>
                                     )
                                 })

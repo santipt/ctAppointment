@@ -24,8 +24,18 @@ export default function PatientCard(props) {
 
     const handleShowPatientInfoModal = () => setShowPatientInfoModal(!showPatientInfoModal);
 
-    function updateVisitsList (newVisit){
-        setVisits(visits => [...visits, newVisit]);
+    function updateVisitsList(newVisit, remove) {
+        if(remove){
+            // Deleting visit from visits array
+            var newVisitList = visits.filter(( visit ) => visit._id !== newVisit)
+            setVisits(visits => [...visits, newVisitList]);
+        }else{
+            setVisits(visits => [...visits, newVisit]);
+        }
+    }
+
+    function updatePatientData(newPatientData) {
+        //props.data = newPatientData;
     }
 
     // Like componentDidMount y componentDidUpdate
@@ -37,26 +47,31 @@ export default function PatientCard(props) {
             setFirstLoad(false)
 
             var listOfVisitsIds = props.data.visits;
+            var savedLastVisit;
 
-            console.log("LIST OF VISITS IDS", listOfVisitsIds)
-
+            // Saving list of visits with information
             listOfVisitsIds.forEach((visitId, index) => {
 
                 // Getting all the info of each visit
                 getAVisit(visitId).then(res => {
                     setVisits(visits => [...visits, res]);
 
-                    // Getting the last visit id
-                    if (index == 0) {
+                    if (index === 0) {
+                        savedLastVisit = res.dateOfVisit;
+                    }
+
+                    // Checking which visit is the last one
+                    if (new Date(savedLastVisit) <= new Date(res.dateOfVisit) || listOfVisitsIds.length == 1) {
                         // Formating date of the last visit
                         var date = convertDateFormat(res.dateOfVisit)
-
                         setLastVisitDate(date);
                     }
+
                 }).catch(err => {
                     alert(err)
                 });
             })
+
         }
 
     }, []);
@@ -80,6 +95,7 @@ export default function PatientCard(props) {
                     visits={visits}
                     patientData={props.data}
                     updateVisitsList={updateVisitsList}
+                    updatePatientData={updatePatientData}
                     show={showPatientInfoModal}
                     closeModal={handleShowPatientInfoModal}
                 ></PatientInfoModal>

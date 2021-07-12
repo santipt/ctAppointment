@@ -8,15 +8,16 @@ import MedicationCard from '../MedicationCard/MedicationCard';
 import { Card, Accordion, Button, Form, Col, Row } from 'react-bootstrap';
 
 // Importing services
-import { addNewMedication, getAMedication } from '../../services/MedicationRoutes';
+import { addNewMedication } from '../../services/MedicationRoutes';
 import { updateVisit } from '../../services/VisitRoutes';
+
 // Importing icons
 import { BsChevronDown, BsChevronUp } from "react-icons/bs";
 
 // Importing usefull functions
 import convertDateFormat from '../../utils/convertDateFormat';
 
-export default function VisitCard(props) {
+export default function VisitCard({...props}) {
 
     const [medications, setMedications] = useState([]);
     const [toggleAccordion, setToggleAccordion] = useState(false);
@@ -36,13 +37,14 @@ export default function VisitCard(props) {
     function handleRemoveNewMedicationCard(e) {
         e.preventDefault() // In order to not refresh
         setMedications(medications.filter(({ addMedication }) => addMedication !== true));
-        setMedications(props.visiData.prescribedMedication.filter(({ addMedication }) => addMedication !== true));
+        setMedications(props.visitData.prescribedMedication.filter(({ addMedication }) => addMedication !== true));
     }
 
     function updateMedicationList(medicationId) {
         setMedications(medications.filter(({ _id }) => _id !== medicationId));
     }
 
+    // Saving new medication in the database
     function handleSaveNewMedication(event, name, dose, packageSize) {
         event.preventDefault() // In order to not refresh
 
@@ -54,8 +56,8 @@ export default function VisitCard(props) {
                 setMedications(medications => [...medications, res]);
 
                 // Adding new medication to the visit data
-                props.visiData.prescribedMedication.push(res)
-                var updatedVisitData = props.visiData;
+                props.visitData.prescribedMedication.push(res)
+                var updatedVisitData = props.visitData;
 
                 // Update medication patient in the visit
                 updateVisit(updatedVisitData).then(visit => {
@@ -66,22 +68,20 @@ export default function VisitCard(props) {
                     handleRemoveNewMedicationCard(event)
                 })
             }).catch(err => {
-
+                alert(err)
             })
         } else {
             alert("You must fill all the parameters")
         }
-
     }
-
 
 
     // Like componentDidMount y componentDidUpdate
     useEffect(() => {
 
         // Getting the medication data
-        if (props.visiData != undefined && props.visiData.prescribedMedication != undefined) {
-            setMedications(props.visiData.prescribedMedication);
+        if (props.visitData != undefined && props.visitData.prescribedMedication != undefined) {
+            setMedications(props.visitData.prescribedMedication);
         }
 
     }, []);
@@ -126,7 +126,7 @@ export default function VisitCard(props) {
                                         }) : null}
                                 </Row>
                             </Form.Group>
-                            <Button variant="outline-danger" onClick={props.closeModal}>
+                            <Button variant="outline-danger" onClick={(event)=>{props.handleDeleteVisit(event, props.visitData)}}>
                                 Delete visit
                             </Button>
                         </Card.Body>

@@ -49,3 +49,14 @@ export async function updateVisit(updateData) {
 // -----------------------------------------------------------------
 // ----------------------------- DELETE ----------------------------
 // -----------------------------------------------------------------
+export async function deleteVisit(visitId) {
+
+  return api.delete('/visit/' + visitId).then(res => {
+    //console.log(res.data);
+    return res.data
+  })
+    .catch(err => {
+      console.log('error', err)
+      throw err;
+    })
+}

@@ -62,15 +62,8 @@ export default function MainPage() {
                 </div>
                 <div className="filter_container">
                     <Form.Group className="filter">
-                        <Form.Control type="text" placeholder="Filter" onChange={handleChangeFilter} />
+                        <Form.Control type="text" placeholder="Filter by name" onChange={handleChangeFilter} />
                     </Form.Group>
-                    {/* <Col xs lg="2">
-                        <DropdownButton id="dropdown-basic-button" title="Dropdown button">
-                            <Dropdown.Item href="#/action-1">Action</Dropdown.Item>
-                            <Dropdown.Item href="#/action-2">Another action</Dropdown.Item>
-                            <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
-                        </DropdownButton>
-                    </Col> */}
                     <Button className="toggle_view_button" variant="outline-dark" onClick={handleToggleView}>{toggleView ? <BsFillGridFill size={20} /> : <BsList size={25} />}</Button>
                 </div>
             </div>

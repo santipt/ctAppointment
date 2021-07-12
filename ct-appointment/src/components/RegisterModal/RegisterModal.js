@@ -35,12 +35,17 @@ export default function RegisterModal(props) {
 
         event.preventDefault() // In order to not refresh
 
-        addNewPatient(firstName, lastName, address, dateOfBirth).then(res => {
-            // Closing modal when is completed
-            props.closeModal()
-        }).catch(err => {
-            alert(err)
-        });
+        if (firstName != null && lastName != null && address != null) {
+
+            addNewPatient(firstName, lastName, address, dateOfBirth).then(res => {
+                // Closing modal when is completed
+                props.closeModal()
+            }).catch(err => {
+                alert(err)
+            });
+        }else{
+            alert("You must fill all the parameters")
+        }
     }
 
 
@@ -89,15 +94,14 @@ export default function RegisterModal(props) {
                                 onChange={(date) => setDateOfBirth(date)} />
                         </div>
                     </Form.Group>
-
-                    <Button variant="primary" type="submit" onClick={handleRegisterPatient}>
-                        Submit
-                    </Button>
                 </Form>
             </Modal.Body>
             <Modal.Footer>
-                <Button variant="secondary" onClick={props.closeModal}>
-                    Close Modal
+                <Button variant="outline-dark" type="submit" onClick={handleRegisterPatient}>
+                    Save
+                </Button>
+                <Button variant="outline-dark" onClick={props.closeModal}>
+                    Cancel
                 </Button>
             </Modal.Footer>
         </Modal>

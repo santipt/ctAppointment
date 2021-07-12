@@ -46,7 +46,7 @@ export async function addNewMedication(name, dose, packageSize) {
 export async function deleteMedication(medicationId) {
 
   return api.delete('/medication/' + medicationId).then(res => {
-    console.log(res.data);
+    //console.log(res.data);
     return res.data
   })
     .catch(err => {

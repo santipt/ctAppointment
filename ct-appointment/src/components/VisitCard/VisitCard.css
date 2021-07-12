@@ -1,0 +1,25 @@
+.visit_card_container {
+    width: 100%;
+    margin-top: 5%;
+}
+
+.visit_card_container_all_visits{
+    margin: 2%;
+}
+
+.header_card_container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.title_visit_card {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0px;
+}
+
+.header_medication {
+    display: flex;
+    justify-content: space-between;
+}

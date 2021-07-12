@@ -3,20 +3,44 @@ body {
 }
 
 h1 {
-
 }
 
-.header_container{
+.filter {
+    margin-right: 10%;
+}
+
+.table_container {
+   padding: 30px;
+   padding-top: 0px;
+}
+
+.header_container {
+    margin: 2%;
+    display: flex;
     justify-content: space-between;
-    margin: 20px;
-    align-items: 'center';
 }
 
-.register_button{
+.title_container{
+    display: flex;
+    justify-content: flex-start;
+}
+
+.filter_container{
+    display: flex;
+    justify-content: flex-end;
+
+}
+
+.register_button {
     height: 50px;
-    justify-self: center;
+    margin-left: 20px;
 }
 
+
+.toggle_view_button{
+    height: 40px;
+    width: 50px;
+}
 .patients_container {
     margin: 20px;
 }

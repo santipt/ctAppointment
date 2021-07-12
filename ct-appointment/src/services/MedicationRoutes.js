@@ -3,7 +3,17 @@ import api from '../API.js'
 // -----------------------------------------------------------------
 // ----------------------------- GET -------------------------------
 // -----------------------------------------------------------------
+export async function getAMedication(medicationId) {
 
+  return api.get('/medication/' + medicationId, {}).then(res => {
+    //console.log(res);
+    return res.data;
+  })
+    .catch(err => {
+      console.log('error', err)
+      throw err;
+    })
+}
 
 // -----------------------------------------------------------------
 // ----------------------------- POST ------------------------------
@@ -11,12 +21,12 @@ import api from '../API.js'
 
 export async function addNewMedication(name, dose, packageSize) {
 
-  return api.post('/api/medication', {
+  return api.post('/medication', {
     name: name,
     dose: dose,
     packageSize: packageSize
   }).then(res => {
-    console.log(res.status);
+    //console.log(res.data);
     return res.data
   })
     .catch(err => {
@@ -33,3 +43,14 @@ export async function addNewMedication(name, dose, packageSize) {
 // -----------------------------------------------------------------
 // ----------------------------- DELETE ----------------------------
 // -----------------------------------------------------------------
+export async function deleteMedication(medicationId) {
+
+  return api.delete('/medication/' + medicationId).then(res => {
+    //console.log(res.data);
+    return res.data
+  })
+    .catch(err => {
+      console.log('error', err)
+      throw err;
+    })
+}

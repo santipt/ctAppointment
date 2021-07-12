@@ -16,7 +16,7 @@ export default function RegisterModal(props) {
     const [firstName, setFirstName] = useState(null);
     const [lastName, setLastName] = useState(null);
     const [address, setAddress] = useState(null);
-    const [dateOfBirth, setDateOfBirth] = useState(new Date());
+    const [dateOfBirth, setDateOfBirth] = useState(null);
 
 
     function handleChangeFirstName(event) {
@@ -31,16 +31,22 @@ export default function RegisterModal(props) {
         setAddress(event.target.value)
     }
 
-    async function handleRegisterPatient(e) {
-        
-        e.preventDefault() // In order to not refresh
+    function handleRegisterPatient(event) {
 
-        addNewPatient(firstName, lastName, address, dateOfBirth).then( res =>{
-            // Closing modal when is completed
-            props.closeModal()
-        }).catch(err=>{
-            alert(err)
-        });
+        event.preventDefault() // In order to not refresh
+
+        if (firstName != null && lastName != null && address != null) {
+
+            addNewPatient(firstName, lastName, address, dateOfBirth).then(res => {
+                // Closing modal when is completed
+                props.closeModal()
+                window.location.reload();
+            }).catch(err => {
+                alert(err)
+            });
+        }else{
+            alert("You must fill all the parameters")
+        }
     }
 
 
@@ -54,23 +60,23 @@ export default function RegisterModal(props) {
         >
             <Modal.Header closeButton>
                 <Modal.Title >
-                Register Modal
+                    Register new patient
                 </Modal.Title>
             </Modal.Header>
             <Modal.Body>
                 <Form>
                     <Form.Group className="mb-3">
-                        <Form.Label>First name</Form.Label>
+                        <Form.Label>First name*</Form.Label>
                         <Form.Control type="text" placeholder="First name" onChange={handleChangeFirstName} />
                     </Form.Group>
 
                     <Form.Group className="mb-3">
-                        <Form.Label>Last name</Form.Label>
+                        <Form.Label>Last name*</Form.Label>
                         <Form.Control type="text" placeholder="Last name" onChange={handleChangeLastName} />
                     </Form.Group>
 
                     <Form.Group className="mb-3" >
-                        <Form.Label>Address</Form.Label>
+                        <Form.Label>Address*</Form.Label>
                         <Form.Control type="text" placeholder="Address" onChange={handleChangeAddress} />
                     </Form.Group>
 
@@ -79,6 +85,7 @@ export default function RegisterModal(props) {
                         <div className="row">
                             <DatePicker
                                 className="form-control ml-3"
+                                placeholderText="DD/MM/YYYY"
                                 selected={dateOfBirth}
                                 dropdownMode="select"
                                 showMonthDropdown
@@ -88,15 +95,14 @@ export default function RegisterModal(props) {
                                 onChange={(date) => setDateOfBirth(date)} />
                         </div>
                     </Form.Group>
-
-                    <Button variant="primary" type="submit" onClick={handleRegisterPatient}>
-                        Submit
-                    </Button>
                 </Form>
             </Modal.Body>
             <Modal.Footer>
-                <Button variant="secondary" onClick={props.closeModal}>
-                    Close Modal
+                <Button variant="outline-dark" type="submit" onClick={handleRegisterPatient}>
+                    Save
+                </Button>
+                <Button variant="outline-dark" onClick={props.closeModal}>
+                    Cancel
                 </Button>
             </Modal.Footer>
         </Modal>

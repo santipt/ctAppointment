@@ -8,7 +8,7 @@ import MedicationCard from '../MedicationCard/MedicationCard';
 import { Card, Accordion, Button, Form, Col, Row } from 'react-bootstrap';
 
 // Importing services
-import { addNewMedication } from '../../services/MedicationRoutes';
+import { addNewMedication, deleteMedication } from '../../services/MedicationRoutes';
 import { updateVisit } from '../../services/VisitRoutes';
 import { getAMedication } from '../../services/MedicationRoutes';
 
@@ -76,6 +76,31 @@ export default function VisitCard({ ...props }) {
         } else {
             alert("You must fill all the parameters")
         }
+    }
+
+    // Deleting medication in the database
+    function handleDeleteMedication(event, medicationData) {
+        console.log("Deleting medication: ", medicationData)
+        deleteMedication(medicationData._id).then(res => {
+            console.log("Medication deleted", res)
+
+            var newMedications = props.visitData.prescribedMedication.filter(( medication ) => medication._id !== medicationData._id)
+            props.visitData.prescribedMedication = newMedications;
+            var updatedVisitData = props.visitData;
+
+            updateVisit(updatedVisitData).then(res => {
+                console.log("Visit updated", res)
+
+                updateMedicationList(medicationData._id)
+                window.location.reload();
+            }).catch(err => {
+
+            })
+
+
+        }).catch(err => {
+            alert(err)
+        })
     }
 
 
@@ -148,6 +173,7 @@ export default function VisitCard({ ...props }) {
                                                         handleRemoveNewMedicationCard={handleRemoveNewMedicationCard}
                                                         handleSaveNewMedication={handleSaveNewMedication}
                                                         getMedicationInfo={props.getMedicationInfo}
+                                                        handleDeleteMedication={handleDeleteMedication}
                                                     ></MedicationCard>
                                                 </Col>
                                             )

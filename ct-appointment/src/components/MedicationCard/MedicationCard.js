@@ -6,9 +6,6 @@ import './MedicationCard.css';
 // Importing Bootstrap components
 import { Card, Button, Form } from 'react-bootstrap';
 
-// Importing services
-import { deleteMedication } from '../../services/MedicationRoutes';
-
 // Importing icons
 import { BsFillTrashFill } from "react-icons/bs";
 
@@ -30,16 +27,6 @@ export default function MedicationCard(props) {
         setPackageSize(event.target.value)
     }
 
-    function handleDeleteMedication(event) {
-        console.log("Deleting medication: ", props.medicationData)
-        deleteMedication(props.medicationData._id).then(res => {
-            // Add loading
-            props.updateMedicationList(props.medicationData._id)
-            window.location.reload();
-        }).catch(err => {
-            alert(err)
-        })
-    }
 
     // Like componentDidMount y componentDidUpdate
     useEffect(() => {
@@ -74,11 +61,11 @@ export default function MedicationCard(props) {
     } else {
         return (
             // INFO MEDICATION CARD
-            <Card className={props.getMedicationInfo ? "medication_card_container_all_visits" :"medication_card_container"}>
+            <Card className={props.getMedicationInfo ? "medication_card_container_all_visits" : "medication_card_container"}>
                 <Card.Header className="medication_card_header">
                     <Card.Title className="medication_title">{props.name}</Card.Title>
                     {props.getMedicationInfo != true ?
-                        <a className="delete_medication_button" onClick={handleDeleteMedication}>
+                        <a className="delete_medication_button" onClick={(event) => {props.handleDeleteMedication(event, props.medicationData)}}>
                             <BsFillTrashFill className="trash_icon" size={13} />
                         </a>
                         : null

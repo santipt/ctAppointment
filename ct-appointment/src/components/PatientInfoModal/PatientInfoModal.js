@@ -65,6 +65,7 @@ export default function PatientInfoModal({updatePatientData, patientData, closeM
                 updateVisitsList(res, false)
                 // Updating patientData prop
                 updatePatientData(patientData)
+                window.location.reload();
 
             }).catch(err => {
                 alert(err)

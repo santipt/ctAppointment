@@ -40,7 +40,7 @@ export default function ListItemPatient(props) {
             getAVisit(visitId).then(res => {
                 setVisits(visits => [...visits, res]);
 
-                if (index == 0) {
+                if (index == listOfVisits.length - 1) {
                     // Formating date of the last visit
                     var date = convertDateFormat(res.dateOfVisit)
 

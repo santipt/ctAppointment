@@ -42,7 +42,6 @@ export default function MainPage() {
 
         // Getting a list of al the patients in the database
         getAllPatients().then(res => {
-            //console.log(res)
             setListOfPatients(res)
             setFilteredPatients(res)
         }).catch(err => {
@@ -78,7 +77,6 @@ export default function MainPage() {
                                     key={val._id}
                                     firstName={val.firstName}
                                     lastName={val.lastName}
-                                    lastVisit={val.updatedAt}
                                     data={val}
                                 ></PatientCard>
                             </Col>
@@ -102,7 +100,6 @@ export default function MainPage() {
                                         key={val._id}
                                         firstName={val.firstName}
                                         lastName={val.lastName}
-                                        lastVisit={val.updatedAt}
                                         data={val}
                                     ></ListItemPatient>
                                 )

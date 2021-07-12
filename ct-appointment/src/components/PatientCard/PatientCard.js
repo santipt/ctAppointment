@@ -25,11 +25,11 @@ export default function PatientCard(props) {
     const handleShowPatientInfoModal = () => setShowPatientInfoModal(!showPatientInfoModal);
 
     function updateVisitsList(newVisit, remove) {
-        if(remove){
+        if (remove) {
             // Deleting visit from visits array
-            var newVisitList = visits.filter(( visit ) => visit._id !== newVisit)
+            var newVisitList = visits.filter((visit) => visit._id !== newVisit)
             setVisits(visits => [...visits, newVisitList]);
-        }else{
+        } else {
             setVisits(visits => [...visits, newVisit]);
         }
     }
@@ -41,38 +41,32 @@ export default function PatientCard(props) {
     // Like componentDidMount y componentDidUpdate
     useEffect(() => {
 
-        // Getting all the patient visits
+        // Getting the last visit id
         if (props.data.visits != [] && firstLoad == true) {
 
             setFirstLoad(false)
 
-            var listOfVisitsIds = props.data.visits;
-            var savedLastVisit;
+            var listOfVisits = props.data.visits;
+            console.log("LIST OF VISITS")
+            console.log(listOfVisits)
 
-            // Saving list of visits with information
-            listOfVisitsIds.forEach((visitId, index) => {
+            listOfVisits.forEach((visitId, index) => {
 
-                // Getting all the info of each visit
                 getAVisit(visitId).then(res => {
                     setVisits(visits => [...visits, res]);
 
-                    if (index === 0) {
-                        savedLastVisit = res.dateOfVisit;
-                    }
-
-                    // Checking which visit is the last one
-                    if (new Date(savedLastVisit) <= new Date(res.dateOfVisit) || listOfVisitsIds.length == 1) {
+                    if (index == listOfVisits.length - 1) {
                         // Formating date of the last visit
                         var date = convertDateFormat(res.dateOfVisit)
+
                         setLastVisitDate(date);
                     }
-
                 }).catch(err => {
                     alert(err)
                 });
             })
-
         }
+
 
     }, []);
 

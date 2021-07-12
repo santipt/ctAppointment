@@ -4,6 +4,7 @@
 
 This project is an assignment for the company CTcue. Consists in a frontend for a doctor appointment CMS.
 
+You can find the backend and the instructions on how to run it at: https://github.com/CTcue/ctDoctor.
 
 ## Getting Started
 
@@ -17,6 +18,7 @@ In the project directory, you can run:
 
 ```bash
 cd ct-appointment
+npm install
 npm start
 ```
 
